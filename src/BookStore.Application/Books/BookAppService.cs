@@ -1,4 +1,5 @@
 ﻿using BookStore.GlobalDtos;
+using BookStore.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,18 @@ namespace BookStore.Books
     {
         public BookAppService(IRepository<Book, Guid> repository) : base(repository)
         {
+            GetPolicyName = BookStorePermissions.Books.Default;
+            GetListPolicyName = BookStorePermissions.Books.Default;
+            GetPolicyName = BookStorePermissions.Books.Default;
+            CreatePolicyName = BookStorePermissions.Books.Create;
+            UpdatePolicyName = BookStorePermissions.Books.Edit;
+            DeletePolicyName = BookStorePermissions.Books.Delete;
         }
 
         public override async Task<PagedResultDto<BookDto>> GetListAsync(PagedSortedAndFilteredResultRequestDto input)
         {
+            await CheckGetListPolicyAsync();
+
             var query = await Repository.GetQueryableAsync();
 
             // Apply filtering
