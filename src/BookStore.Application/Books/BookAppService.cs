@@ -1,5 +1,6 @@
 ﻿using BookStore.GlobalDtos;
 using BookStore.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,11 +52,7 @@ namespace BookStore.Books
 
             var entityDtos = ObjectMapper.Map<List<Book>, List<BookDto>>(entities);
 
-            return new PagedResultDto<BookDto>
-            {
-                TotalCount = totalCount,
-                Items = entityDtos,
-            };
+            return new PagedResultDto<BookDto>(totalCount, entityDtos);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookStore.Authors;
 using BookStore.Books;
 using System;
 
@@ -13,5 +14,7 @@ public class BookStoreApplicationAutoMapperProfile : Profile
 
         CreateMap<CreateUpdateBookDto, Book>()
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => Enum.Parse<BookType>(src.Type)));
+
+        CreateMap<Author, AuthorDto>();
     }
 }
