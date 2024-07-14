@@ -1,6 +1,7 @@
 ﻿using BookStore.Authors;
 using BookStore.Books;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -91,5 +92,13 @@ public class BookStoreDbContext :
 
             author.HasIndex(x => x.Name);
         });
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+
+        optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole().AddDebug(); }))
+        .EnableSensitiveDataLogging();
     }
 }
